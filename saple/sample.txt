@@ -1,0 +1,132 @@
+<html>
+
+<head>
+    <style>
+        /*DEMO*/
+        #menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #menu div {
+            display: block;
+            width: 100%;
+            height: 20%;
+            margin-bottom: .5rem;
+            text-align: center;
+            line-height: 20%;
+            cursor: pointer;
+        }
+
+        #content {
+            width: 80%;
+            margin-left: auto;
+        }
+
+        section {
+            min-height: 500px;
+        }
+
+        /*COLORS*/
+        #menu div {
+            background: black;
+            color: white;
+        }
+
+        #menu div.active {
+            background: red;
+        }
+
+        section {
+            background: lightgray;
+        }
+
+        section.active {
+            background: darkgray;
+        }
+
+        /*RESPONSIVE*/
+        @media (max-width: 768px) {
+            #menu {
+                width: 100%;
+                height: 10%;
+                flex-direction: row;
+            }
+
+            #menu div {
+                height: 100%;
+                width: 20%;
+                border-bottom: 1px solid white;
+            }
+
+            #content {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            section {
+                display: none;
+            }
+
+            section.active {
+                display: block;
+            }
+        }
+    </style>
+    <script>
+        // Function to scroll to a section with smooth behavior
+        function scrollToSection(id) {
+            var element = document.getElementById(id);
+            element.scrollIntoView({ behavior: "smooth" });
+        }
+
+        // Function to update the active link based on scroll position
+        function updateActiveLink() {
+            var menu = document.getElementById("menu");
+            var links = menu.getElementsByTagName("div");
+            var sections = document.getElementsByTagName("section");
+            var currentTop = window.pageYOffset;
+            for (var i = 0; i < sections.length; i++) {
+                var sectionTop = sections[i].offsetTop;
+                var sectionBottom = sectionTop + sections[i].offsetHeight;
+                var id = sections[i].getAttribute("id");
+                if (currentTop >= sectionTop && currentTop < sectionBottom) {
+                    links[i].classList.add("active");
+                    sections[i].classList.add("active");
+                } else {
+                    links[i].classList.remove("active");
+                    sections[i].classList.remove("active");
+                }
+            }
+        }
+
+        // Add event listeners for scroll and load events
+        window.addEventListener("scroll", updateActiveLink);
+        window.addEventListener("load", updateActiveLink);
+    </script>
+</head>
+
+<body>
+    <div id="menu">
+        <div onclick="scrollToSection('item-1')">Item 1</div>
+        <div onclick="scrollToSection('item-2')">Item 2</div>
+        <div onclick="scrollToSection('item-3')">Item 3</div>
+        <div onclick="scrollToSection('item-4')">Item 4</div>
+        <div onclick="scrollToSection('item-5')">Item 5</div>
+    </div>
+
+    <div id="content">
+        <section id="item-1">Item 1</section>
+        <section id="item-2">Item 2</section>
+        <section id="item-3">Item 3</section>
+        <section id="item-4">Item 4</section>
+        <section id="item-5">Item 5</section>
+    </div>
+</body>
+
+</html>
